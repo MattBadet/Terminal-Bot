@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <style>
+    </style>
+</head>
+
+<body>
+    <h1>CHAT</h1>
+    <div id="websocket">
+        <form action="#" id="chatbox">
+            <input type="text" name="message" placeholder="Votre message" />
+            <input type="submit" />
+        </form>
+        <div id="messages"></div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io('http://localhost');
+        socket.on('welcome', function (data) {
+            afficheMessage(data.message);
+        });
+        socket.on('message', function (data) {
+            afficheMessage(data.message);
+        });
+        var form = document.getElementById('chatbox');
+        form.addEventListener('submit', function (e) {
+            socket.emit('message', form.elements['message'].value);
+            afficheMessage(form.elements['message'].value);
+            form.elements['message'].value = '';
+            e.preventDefault();
+        });
+
+        function afficheMessage(msg) {
+            var message = document.createElement('p');
+            message.innerHTML = msg;
+            document.getElementById('messages').appendChild(message);
+        }
+    </script>
+</body>
+
+</html>
