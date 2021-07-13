@@ -1,44 +1,100 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="fr">
 <head>
-    <meta charset="utf-8" />
-    <style>
-    </style>
+    <meta charset="UTF-8">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Site</title>    
 </head>
-
 <body>
-    <h1>CHAT</h1>
-    <div id="websocket">
-        <form action="#" id="chatbox">
-            <input type="text" name="message" placeholder="Votre message" />
-            <input type="submit" />
-        </form>
-        <div id="messages"></div>
-    </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        var socket = io('http://localhost');
-        socket.on('welcome', function (data) {
-            afficheMessage(data.message);
-        });
-        socket.on('message', function (data) {
-            afficheMessage(data.message);
-        });
-        var form = document.getElementById('chatbox');
-        form.addEventListener('submit', function (e) {
-            socket.emit('message', form.elements['message'].value);
-            afficheMessage(form.elements['message'].value);
-            form.elements['message'].value = '';
-            e.preventDefault();
-        });
 
-        function afficheMessage(msg) {
-            var message = document.createElement('p');
-            message.innerHTML = msg;
-            document.getElementById('messages').appendChild(message);
-        }
-    </script>
+    <h1 style="width: auto;">Bienvenue</h1>
+    <div id="terminal"></div>
+    <form action="" id="form">
+        <label class='label'>>>></label>
+        <input id="textinput" type="text" name="message" placeholder="" />
+        <input type="submit" />
+    </form>
+    <div class="btn">
+        <form action="/" method="POST">
+            <button name="button" value="1">Démarrer</button>
+            <button name="button" value="2">Redémarrer</button>
+            <button name="button" value="3">Eteindre</button>
+        </form>
+    </div>
+
 </body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io('http://localhost');
+    socket.on('welcome', function (data) {
+        afficheMessage(data.message);
+    });
+    socket.on('message', function (data) {
+        afficheMessage(data.message);
+    });
+    var form = document.getElementById('form');
+    form.addEventListener('submit', function (e) {
+        socket.emit('message', form.elements['message'].value);
+        afficheMessage(form.elements['message'].value);
+        form.elements['message'].value = '';
+        e.preventDefault();
+    });
+
+    function afficheMessage(msg) {
+        var message = document.createElement('p');
+        message.innerHTML = msg;
+        document.getElementById('terminal').appendChild(message);
+    }
+</script>
+
+<style>
+    #terminal{
+    display: block;
+    background: #1a1a1a;
+    width: 100%;
+    font-family: source code pro,monospace;
+    color: #dfdfdf;
+    font-size: 12px;
+    line-height: 14px;
+    padding: 10px 10px 0;
+    box-sizing: border-box;
+    height: 500px;
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 5px 5px 0 0;
+}
+
+#form{
+    background:#1a1a1a;
+    width: 100%;
+    font-family: source code pro,monospace;
+}
+
+.label{
+    color: #dfdfdf;
+    height: 30px;
+    margin-left: 10px;
+}
+
+#textinput{
+    width: 90%;
+    height: 30px;
+    margin-left: 5px;
+    background: #1a1a1a;
+    color: #dfdfdf;
+    outline: none;
+    border: none;
+}
+
+.btn{
+    box-sizing: border-box;
+    margin-top: 10px;
+    margin-left: 40%;
+}
+</style>
 
 </html>
